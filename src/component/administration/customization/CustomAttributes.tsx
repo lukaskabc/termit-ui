@@ -351,7 +351,10 @@ export const CustomAttributes: React.FC = () => {
         customAttributes={properties}
         tableColumns={infoColumns}
       />
-      <CustomAttributesProfileImportDialog ref={profileImportDialog} />
+      <CustomAttributesProfileImportDialog
+        ref={profileImportDialog}
+        tableColumns={infoColumns}
+      />
     </PanelWithActions>
   );
 };
