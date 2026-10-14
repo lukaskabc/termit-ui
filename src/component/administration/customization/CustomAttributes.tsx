@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useI18n } from "../../hook/useI18n";
 import { ThunkDispatch } from "../../../util/Types";
 import { useDispatch, useSelector } from "react-redux";
@@ -41,13 +41,20 @@ import CopyIriIcon from "../../misc/CopyIriIcon";
 import CustomAttributeRemoveDialog from "./CustomAttributeRemoveDialog";
 import CustomAttributeIriMigrationDialog from "./CustomAttributeIriMigrationDialog";
 import "./CustomAttributes.scss";
+import {
+  CustomAttributesProfileExportDialog,
+  CustomAttributesProfileExportDialogHandle,
+} from "./profile/CustomAttributesProfileExportDialog";
+import { FaCloudDownloadAlt, FaCloudUploadAlt } from "react-icons/fa";
 
 interface MoreActionsProps {
   onMigrateIriClick: () => void;
+  onProfileExportClick: () => void;
 }
 
 const MoreActionsDropdown: React.FunctionComponent<MoreActionsProps> = ({
   onMigrateIriClick,
+  onProfileExportClick,
 }) => {
   const { i18n } = useI18n();
   return (
@@ -71,6 +78,30 @@ const MoreActionsDropdown: React.FunctionComponent<MoreActionsProps> = ({
           <IoMdMove className="mr-1" />
           {i18n("asset.migrate.iri.label")}
         </DropdownItem>
+        <DropdownItem
+          className="btn-sm"
+          title={i18n(
+            "administration.customization.customAttributes.profile.export.title"
+          )}
+          onClick={onProfileExportClick}
+        >
+          <FaCloudDownloadAlt className="mr-1" />
+          {i18n(
+            "administration.customization.customAttributes.profile.export.title"
+          )}
+        </DropdownItem>
+        <DropdownItem
+          className="btn-sm"
+          title={i18n(
+            "administration.customization.customAttributes.profile.import.title"
+          )}
+          onClick={() => {}}
+        >
+          <FaCloudUploadAlt className="mr-1" />
+          {i18n(
+            "administration.customization.customAttributes.profile.import.title"
+          )}
+        </DropdownItem>
       </DropdownMenu>
     </UncontrolledButtonDropdown>
   );
@@ -82,6 +113,8 @@ export const CustomAttributes: React.FC = () => {
   const properties = useSelector(
     (state: TermItState) => state.customAttributes
   );
+  const profileExportDialog =
+    useRef<CustomAttributesProfileExportDialogHandle>(null);
 
   /**
    * Attribute that user wants to remove. When non-null, the removal dialog is displayed.
@@ -155,8 +188,13 @@ export const CustomAttributes: React.FC = () => {
     setShowIriMigrationDialog(false);
   }, []);
 
+  const onProfileExportClick = React.useCallback(() => {
+    profileExportDialog.current?.show();
+  }, [profileExportDialog]);
+
   const lang = getShortLocale(locale);
-  const columns: ColumnDef<CustomAttribute>[] = React.useMemo(
+
+  const infoColumns: ColumnDef<CustomAttribute>[] = React.useMemo(
     () => [
       {
         header: i18n("properties.edit.new.label"),
@@ -207,6 +245,13 @@ export const CustomAttributes: React.FC = () => {
             : row.original.rangeIri;
         },
       },
+    ],
+    [i18n, lang]
+  );
+
+  const columns: ColumnDef<CustomAttribute>[] = React.useMemo(
+    () => [
+      ...infoColumns,
       {
         header: i18n("actions"),
         id: "actions",
@@ -237,7 +282,7 @@ export const CustomAttributes: React.FC = () => {
         },
       },
     ],
-    [i18n, lang, onEditClick, onRemoveClick]
+    [i18n, infoColumns, onEditClick, onRemoveClick]
   );
 
   const tableInstance = useReactTable<CustomAttribute>({
@@ -271,7 +316,10 @@ export const CustomAttributes: React.FC = () => {
             &nbsp;
             {i18n("administration.customization.customAttributes.add")}
           </Link>
-          <MoreActionsDropdown onMigrateIriClick={onMigrateIriClick} />
+          <MoreActionsDropdown
+            onMigrateIriClick={onMigrateIriClick}
+            onProfileExportClick={onProfileExportClick}
+          />
         </ButtonToolbar>
       }
     >
@@ -284,6 +332,11 @@ export const CustomAttributes: React.FC = () => {
       <CustomAttributeIriMigrationDialog
         isVisible={showIriMigrationDialog}
         onClose={onIriMigrationClosed}
+      />
+      <CustomAttributesProfileExportDialog
+        ref={profileExportDialog}
+        customAttributes={properties}
+        tableColumns={infoColumns}
       />
     </PanelWithActions>
   );
