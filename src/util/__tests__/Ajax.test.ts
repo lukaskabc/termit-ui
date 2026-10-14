@@ -451,6 +451,26 @@ describe("Ajax", () => {
         });
     });
   });
+
+  describe("excludeCredentials", () => {
+    /**
+     * Request config built with excludeCredentials().
+     * Verify that the request has no Authorization header (SecurityUtils.loadToken is not used)
+     * and withCredentials is not set to true.
+     * Should be verified for GET, HEAD, POST, PUT, PATCH and DELETE.
+     */
+    it.todo(
+      "does not set Authorization header nor withCredentials when credentials are excluded"
+    );
+
+    /**
+     * Request config built without excludeCredentials().
+     * Verify that the Authorization header contains the JWT and withCredentials is true (unchanged behavior).
+     */
+    it.todo(
+      "sets Authorization header and withCredentials when credentials are not excluded"
+    );
+  });
 });
 
 describe("paramsSerializer", () => {
@@ -486,4 +506,12 @@ describe("paramsSerializer", () => {
       )}&includeTerms=${encodeURIComponent(parameters.includeTerms[1])}`
     );
   });
+});
+
+describe("RequestConfigBuilder", () => {
+  /**
+   * Verify that shouldExcludeCredentials() returns false for a newly created builder
+   * and true after excludeCredentials() was called, and that excludeCredentials() returns the builder for chaining.
+   */
+  it.todo("excludeCredentials marks the config to exclude credentials");
 });
