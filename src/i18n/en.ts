@@ -1005,6 +1005,7 @@ const en = {
     "type.user": "User",
     "type.usergroup": "User group",
     "type.userrole": "User role",
+    "type.collection": "Collection",
     "datatype.string": "String (without language)",
     "datatype.langString": "Multilingual string",
     "datatype.integer": "Integer",
@@ -1172,6 +1173,8 @@ const en = {
     "collection.members.remove.title": "Remove member from this collection",
     "collection.members.remove.description":
       'Are you sure you want to remove the member "{label}" from the collection?',
+    "collection.snapshot.message":
+      "This collection is a snapshot and is read only. Click to view the current version.",
   },
 };
 

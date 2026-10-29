@@ -33,6 +33,9 @@ import {
   RemoveCollectionDialog,
   RemoveCollectionDialogHandle,
 } from "./RemoveCollectionDialog";
+import { CollectionSnapshotIcon } from "./CollectionSnapshotIcon";
+import classNames from "classnames";
+import { CollectionReadOnlyIcon } from "./CollectionReadOnlyIcon";
 
 export interface CollectionDetailProps {}
 
@@ -103,14 +106,26 @@ const CollectionDetail: FunctionComponent<CollectionDetailProps> = () => {
   const TitleWithIcon = useMemo(() => {
     return (
       <>
+        <CollectionSnapshotIcon
+          collection={collectionDto}
+          vocabulary={vocabulary}
+        />
         {collectionDto?.isOrdered() && (
           <OrderedCollectionIcon id={"collection-header-title"} />
         )}
-        {label}
+        <span
+          className={classNames({ "text-muted": collectionDto?.isSnapshot() })}
+        >
+          {label}
+        </span>
         {collectionDto && <CopyIriIcon url={collectionDto.iri} />}
+        <CollectionReadOnlyIcon
+          collection={collectionDto}
+          vocabulary={vocabulary}
+        />
       </>
     );
-  }, [collectionDto, label]);
+  }, [collectionDto, label, vocabulary]);
 
   const actions = useMemo(() => {
     return [

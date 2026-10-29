@@ -1011,6 +1011,7 @@ const cs = {
     "type.user": "Uživatel",
     "type.usergroup": "Uživatelská skupina",
     "type.userrole": "Uživatelská role",
+    "type.collection": "Kolekce",
     "datatype.string": "Textový řetězec (bez jazyka)",
     "datatype.langString": "Vícejazyčný textový řetězec",
     "datatype.integer": "Celé číslo",
@@ -1179,6 +1180,8 @@ const cs = {
     "collection.members.remove.title": "Odebrat člena z této kolekce",
     "collection.members.remove.description":
       'Opravdu chcete odebrat člena "{label}" z kolekce?',
+    "collection.snapshot.message":
+      "Tato kolekce je revize a je určena pouze pro čtení. Kliknutím přejdete na aktuální verzi.",
   },
 };
 
