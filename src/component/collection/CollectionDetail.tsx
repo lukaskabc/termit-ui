@@ -47,6 +47,7 @@ import {
   CollectionIriMigrationDialogHandle,
 } from "./CollectionIriMigrationDialog";
 import { IoMdMove } from "react-icons/io";
+import { hasLabelInLanguage } from "../../model/MultilingualString";
 
 export interface CollectionDetailProps {}
 
@@ -76,8 +77,22 @@ const CollectionDetail: FunctionComponent<CollectionDetailProps> = () => {
   );
 
   const [selectedLanguage, setSelectedLanguage] = useState(
-    vocabulary.primaryLanguage ?? getShortLocale(locale)
+    getShortLocale(locale)
   );
+
+  useEffect(() => {
+    if (vocabulary.primaryLanguage != null) {
+      setSelectedLanguage(vocabulary.primaryLanguage);
+    } else if (
+      hasLabelInLanguage(collectionDto?.title, getShortLocale(locale))
+    ) {
+      setSelectedLanguage(locale);
+    } else {
+      setSelectedLanguage(getLanguages(["title"], collectionDto)[0]);
+    }
+    // excluding locale from hook deps to not change the selected language on UI lang change
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [vocabulary.primaryLanguage, collectionDto]);
 
   useEffect(() => {
     if (vocabulary?.iri !== vocabularyUri.toString()) {
