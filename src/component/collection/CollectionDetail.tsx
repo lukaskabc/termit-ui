@@ -111,6 +111,7 @@ const CollectionDetail: FunctionComponent<CollectionDetailProps> = () => {
     if (collection) {
       removeDialogRef.current?.remove(collection);
     }
+  }, [collection]);
   const onIriMigrate = useCallback(() => {
     if (collection) {
       migrateIriDialogRef.current?.open(collection);
