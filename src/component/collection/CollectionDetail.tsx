@@ -83,16 +83,14 @@ const CollectionDetail: FunctionComponent<CollectionDetailProps> = () => {
   useEffect(() => {
     if (vocabulary.primaryLanguage != null) {
       setSelectedLanguage(vocabulary.primaryLanguage);
-    } else if (
-      hasLabelInLanguage(collectionDto?.title, getShortLocale(locale))
-    ) {
+    } else if (hasLabelInLanguage(collection?.title, getShortLocale(locale))) {
       setSelectedLanguage(locale);
     } else {
-      setSelectedLanguage(getLanguages(["title"], collectionDto)[0]);
+      setSelectedLanguage(getLanguages(["title"], collection)[0]);
     }
     // excluding locale from hook deps to not change the selected language on UI lang change
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [vocabulary.primaryLanguage, collectionDto]);
+  }, [vocabulary.primaryLanguage, collection]);
 
   useEffect(() => {
     if (vocabulary?.iri !== vocabularyUri.toString()) {
