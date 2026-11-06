@@ -200,14 +200,16 @@ const OriginalValue = ({ changes }: HasChangeObjects) => {
   return renderChanges(changes, isRemoved);
 };
 
+// TODO rewrite for inline rendering, consider using visibility: hidden
+
 const MemberIri = ({ member }: { member: HasIdentifier }) => {
   const iri = member.iri;
   return (
-    <div className={"collection-member-history-entry"}>
+    <span className={"collection-member-history-entry"}>
       <OutgoingLink
         label={<AssetLabel iri={iri} shrinkFullIri={true} />}
         iri={iri}
       />
-    </div>
+    </span>
   );
 };
