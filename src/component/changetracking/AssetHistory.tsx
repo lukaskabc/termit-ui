@@ -34,6 +34,7 @@ import IdentifierChangeRecord from "../../model/changetracking/IdentifierChangeR
 import IdentifierChangeRow from "./IdentifierChangeRow";
 import { OrderedCollectionMembersUpdateChangeRecord } from "../../model/changetracking/OrderedCollectionMembersUpdateChangeRecord";
 import { OrderedCollectionMembersUpdateChangeRow } from "./OrderedCollectionMembersUpdateChangeRow";
+import { UserData } from "../../model/User";
 
 interface AssetHistoryProps {
   asset: Asset;
@@ -146,10 +147,88 @@ export const AssetHistory: React.FC<AssetHistoryProps> = ({ asset }) => {
     return <ContainerMask text={i18n("history.loading")} />;
   }
 
-  const start = page * pageSize;
-  const end = start + pageSize;
-  const pageRecords = records.slice(start, end);
-
+  // const start = page * pageSize;
+  // const end = start + pageSize;
+  // const pageRecords = records.slice(start, end);
+  // TODO: until JOPA is fixed
+  const author: UserData = {
+    firstName: "Lukáš",
+    lastName: "Kaňka",
+    iri: "http://user.data/lukas-kanka",
+    username: "lukaskabc",
+  };
+  const pageRecords = [
+    new OrderedCollectionMembersUpdateChangeRecord({
+      iri: "http://change.record/1",
+      author,
+      changedAttribute: { iri: VocabularyUtils.SKOS_MEMBER_LIST },
+      changedEntity: { iri: asset.iri },
+      timestamp: "2026-11-06",
+      types: [],
+      newValue: [
+        "alpha",
+        "beta",
+        // "gamma",
+        "delta",
+        "epsilon",
+        "xxxx",
+        "zeta",
+        "eta",
+        "theta",
+        "iota",
+        // "kappa",
+        // "lambda",
+        // "mu",
+        // "nu",
+        "xxxx",
+        "xi",
+        "omicron",
+        "pi",
+        "rho",
+        "sigma",
+        // "tau",
+        // "upsilon",
+        "xxxx",
+        "xxxx",
+        "xxxx",
+        "xxxx",
+        "phi",
+        "chi",
+        "psi",
+        "omega",
+      ].map((iri) => ({
+        iri,
+      })),
+      originalValue: [
+        "alpha",
+        "beta",
+        "gamma",
+        "delta",
+        "epsilon",
+        "zeta",
+        "eta",
+        "theta",
+        "iota",
+        "kappa",
+        "lambda",
+        "mu",
+        "nu",
+        "xi",
+        "omicron",
+        "pi",
+        "rho",
+        "sigma",
+        "tau",
+        "upsilon",
+        "phi",
+        "chi",
+        "psi",
+        "omega",
+      ].map((iri) => ({
+        iri,
+      })),
+    }),
+  ];
   return (
     <div className="additional-metadata-container">
       <Table striped={true} responsive={true}>
